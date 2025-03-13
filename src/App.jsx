@@ -18,7 +18,8 @@ class App extends Component{
                {title : "Umar Ibn Hattob", viewers : 670,  favourite: false, id:2,  favourite : false, like : false},
                {title : "Ertugrul", viewers : 989,  favourite: false, id:3,  favourite : false, like : false},
            ],
-           term : ''
+           term : '',
+           filter : ''
            
         }
     }
@@ -82,18 +83,31 @@ class App extends Component{
         }
         return arr.filter((item)=> item.title.toLowerCase().indexOf(term) > -1)
     }
+    filterHande = (arr, filter)=>{
+        switch(filter){
+            case 'popular' : 
+            return arr.filter((c)=> c.like) 
+            case 'mostView' :
+            return arr.filter((c)=> c.viewers >800)
+            default :
+            return arr    
+
+        }
+    }
     
     updateTerm = (term)=> this.setState({term})
+    updateFil = (filter)=> this.setState({filter})
   
     render(){
-        const {data,term} = this.state
+        const {data,term, filter} = this.state
         const allMoviesCount = data.length
         const favMoviesCount = data.filter((c)=> c.favourite).length
-        const visibleData = this.searchHande(data, term)
+        // const visibleData = this.searchHande(data, term)
+        const visibleData = this.filterHande(this.searchHande(data,term),filter)
       return(
         <div>
             <Info favMoviesCount = {favMoviesCount} allMoviesCount={allMoviesCount} />
-            <Search updateTerm={this.updateTerm} />
+            <Search filter={filter} updateFil={this.updateFil} updateTerm={this.updateTerm} />
             <Views onToggleProp={this.onToggleProp} data={visibleData} onDelete={this.onDelete} />
             <Addlist addForm={this.addForm} />
         </div>

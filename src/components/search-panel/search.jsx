@@ -15,11 +15,12 @@ class Search extends Component{
         this.props.updateTerm(term)
     }
     render(){
+        const {updateFil, filter} = this.props 
         return(
             <div className='search p-5'>
                 <input onChange={this.updateTerm} value={this.state.term} type="text" className='form-control p-3' placeholder='Kinolarni qidirish' />
                 <div className='d-flex gap-1'>
-                <Btns />
+                <Btns filter={filter} updateFil={updateFil} />
                 
                 </div>
             </div>
